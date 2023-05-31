@@ -6,14 +6,17 @@ import fetchStarwarsData from '../../services/fetchStarWarsData';
 export default function PlanetsProvider({ children }) {
   const INITIAL_STATE = {
     planets: [],
-    filters: {},
+    filters: {
+      planetName: '',
+    },
   };
   const [state, setState] = useState(INITIAL_STATE);
 
+  const updateState = (planets) => {
+    setState({ ...state, planets });
+  };
+
   useEffect(() => {
-    const updateState = (planets) => {
-      setState({ ...state, planets });
-    };
     const fetchPlanets = async () => {
       const planets = await fetchStarwarsData();
       updateState(planets);
