@@ -1,9 +1,17 @@
 import React from 'react';
 import './App.css';
+import Header from './components/Header';
+import Forms from './components/Forms';
+import Table from './components/Table';
 
 function App() {
   return (
-    <span>Hello, App!</span>
+    <div className="App">
+      <Header />
+      <Forms />
+      <Table />
+    </div>
+
   );
 }
 
