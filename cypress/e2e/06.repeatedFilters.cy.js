@@ -39,7 +39,7 @@ describe('6 - Não utilize filtros repetidos', () => {
       expect(options).to.not.contain('population');
     });
   });
-});
+
 it('Filtre por diâmetro e o remove das opções', () => {
   const allColumnsOptions = ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
 
@@ -123,4 +123,5 @@ it('Filtre por superfície aquática e o remove das opções', () => {
 
     expect(options).to.not.contain('surface_water');
   });
+});
 });
