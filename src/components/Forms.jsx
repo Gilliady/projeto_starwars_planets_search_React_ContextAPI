@@ -10,7 +10,6 @@ export default function Forms() {
     diameter,
     rotation_period: rotationPeriod,
     surface_water: surfaceWater } = filters;
-
   const [columnFilter, setColumnFilter] = useState('population');
   const [comparisonFilter, setComparisonFilter] = useState('maior que');
   const [valueFilter, setValueFilter] = useState(0);
