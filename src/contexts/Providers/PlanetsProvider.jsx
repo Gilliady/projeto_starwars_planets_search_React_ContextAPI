@@ -3,17 +3,22 @@ import React, { useEffect, useState } from 'react';
 import planetsContext from '../planetsContext';
 import fetchStarwarsData from '../../services/fetchStarWarsData';
 
+const INITIAL_STATE = {
+  planets: [],
+  filters: {
+    planetName: '',
+    diameter: { value: 0, comparison: '' },
+    orbital_period: { value: 0, comparison: '' },
+    population: { value: 0, comparison: '' },
+    rotation_period: { value: 0, comparison: '' },
+    surface_water: { value: 0, comparison: '' },
+  },
+};
 export default function PlanetsProvider({ children }) {
-  const INITIAL_STATE = {
-    planets: [],
-    filters: {
-      planetName: '',
-    },
-  };
   const [state, setState] = useState(INITIAL_STATE);
 
   const updateState = (planets) => {
-    setState({ ...state, planets });
+    setState({ ...INITIAL_STATE, planets });
   };
 
   useEffect(() => {

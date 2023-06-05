@@ -5,30 +5,44 @@ import Loading from './Loading';
 export default function Table() {
   const { state } = useContext(planetsContext);
   const { planets, filters } = state;
-  console.log(state);
+  const { planetName,
+  } = filters;
+  let filtredPlanets = planets.filter((planet) => (planet.name.toLowerCase()
+    .includes(planetName.toLowerCase())));
+  Object.keys(filters).forEach((key) => {
+    if (key === 'planetName' || filters[key].comparison === '') return;
+    filtredPlanets = filtredPlanets.filter((planet) => {
+      const { value, comparison } = filters[key];
+      switch (comparison) {
+      case 'maior que':
+        return Number(planet[key]) > Number(value);
+      case 'menor que':
+        return Number(planet[key]) < Number(value);
+      case 'igual a':
+        return Number(planet[key]) === Number(value);
+      default:
+        return planet;
+      }
+    });
+  });
   return (
     planets.length === 0 ? <Loading /> : (
       <table>
         <thead>
           <tr>
             {Object.keys(planets[0]).map((key) => (
-              <th key={ key }>{key}</th>
+              <th key={ key }>{key.toUpperCase().replace('_', ' ')}</th>
             ))}
           </tr>
         </thead>
         <tbody>
-          {planets
-            .filter((planet) => (filters.planetName.length > 0
-              ? planet.name.toLowerCase().includes(filters
-                .planetName)
-              : planet))
-            .map((planet) => (
-              <tr key={ planet.name }>
-                {Object.values(planet).map((value) => (
-                  <td key={ value }>{value}</td>
-                ))}
-              </tr>
-            ))}
+          {filtredPlanets.map((planet) => (
+            <tr key={ planet.name }>
+              {Object.values(planet).map((value) => (
+                <td key={ value }>{value}</td>
+              ))}
+            </tr>
+          ))}
         </tbody>
       </table>)
   );
