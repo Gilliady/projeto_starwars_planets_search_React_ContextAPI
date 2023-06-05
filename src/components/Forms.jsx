@@ -5,7 +5,6 @@ export default function Forms() {
   const { state, setState } = useContext(planetsContext);
   const { filters } = state;
   const {
-    planetName,
     population,
     orbital_period: orbitalPeriod,
     diameter,
@@ -29,44 +28,24 @@ export default function Forms() {
         },
       },
     });
+    setColumnFilter('');
     setComparisonFilter('maior que');
     setValueFilter(0);
   };
-
-  /* const applyFilters = () => {
-    let filtredPlanets = state.planets.filter((planet) => (planet.name.toLowerCase()));
-    Object.keys(filters).forEach((filter) => {
-      if (filter === 'planetName') {
-        filtredPlanets = filtredPlanets.filter((planet) => planet.name.toLowerCase()
-          .includes(filters[filter].toLowerCase()));
-      } else if (filters[filter].comparison === 'maior que') {
-        filtredPlanets = filtredPlanets.filter((planet) => Number(planet[filter])
-          > Number(filters[filter].value));
-      } else if (filters[filter].comparison === 'menor que') {
-        filtredPlanets = filtredPlanets.filter((planet) => Number(planet[filter])
-          < Number(filters[filter].value));
-      } else if (filters[filter].comparison === 'igual a') {
-        filtredPlanets = filtredPlanets.filter((planet) => Number(planet[filter])
-          === Number(filters[filter].value));
-      }
-    });
-
-    setState({ ...state, planets: filtredPlanets });
-  }; */
 
   const removeFilter = (filter) => {
     setState({
       ...state,
       filters: {
         ...filters,
-        [filter]: filter === planetName ? '' : { value: 0, comparison: '' },
+        [filter]: { value: 0, comparison: '' },
       },
     });
   };
 
   const handleChange = ({ target }) => {
     const { name, value } = target;
-    setState({ ...state, filters: { ...filters, [name]: value } });
+    setState({ ...state, [name]: value });
   };
 
   return (
@@ -118,16 +97,17 @@ export default function Forms() {
         type="button"
         data-testid="button-filter"
         onClick={ filterClick }
+        disabled={ columnFilter === '' }
       >
         Filtrar
       </button>
       { Object.keys(filters)
         .filter((filter) => filter !== 'planetName' && filters[filter].comparison !== '')
-        .map((filter) => {
-          if (filter === 'planetName') {
+        .map((filter) =>
+          /* if (filter === 'planetName') {
             return null;
-          }
-          return (
+          } */
+          (
             <div
               data-testid="filter"
               key={ filter }
@@ -135,8 +115,7 @@ export default function Forms() {
               {`${filter}: ${filters[filter].value} ${filters[filter].comparison}`}
               <button type="button" onClick={ () => { removeFilter(filter); } }>X</button>
             </div>
-          );
-        }) }
+          )) }
       <button
         data-testid="button-remove-filters"
         type="button"

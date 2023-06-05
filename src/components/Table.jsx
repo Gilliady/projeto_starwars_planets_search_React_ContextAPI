@@ -4,9 +4,7 @@ import Loading from './Loading';
 
 export default function Table() {
   const { state } = useContext(planetsContext);
-  const { planets, filters, sort, sorted } = state;
-  const { planetName,
-  } = filters;
+  const { planets, planetName, filters, sort, sorted } = state;
   let filtredPlanets = planets.filter((planet) => (planet.name.toLowerCase()
     .includes(planetName.toLowerCase())));
   Object.keys(filters).forEach((key) => {

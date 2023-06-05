@@ -5,8 +5,8 @@ import fetchStarwarsData from '../../services/fetchStarWarsData';
 
 const INITIAL_STATE = {
   planets: [],
+  planetName: '',
   filters: {
-    planetName: '',
     diameter: { value: 0, comparison: '' },
     orbital_period: { value: 0, comparison: '' },
     population: { value: 0, comparison: '' },
