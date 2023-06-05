@@ -59,9 +59,6 @@ describe("6 - Não utilize filtros repetidos", () => {
       "surface_water",
     ];
 
-it('Filtre por diâmetro e o remove das opções', () => {
-  const allColumnsOptions = ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
-
     cy.getByTestId(COLUMN_FILTER)
       .find("option")
       .should((options) => {
@@ -183,5 +180,4 @@ it('Filtre por diâmetro e o remove das opções', () => {
         expect(options).to.not.contain("surface_water");
       });
   });
-});
 });
