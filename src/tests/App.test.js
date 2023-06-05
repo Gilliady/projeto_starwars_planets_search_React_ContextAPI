@@ -1,9 +1,27 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import App from '../App';
+import mockData from './helpers/mockData';
+import PlanetsProvider from '../contexts/Providers/PlanetsProvider';
+import { act } from 'react-dom/test-utils';
 
-test('I am your test', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/Hello, App!/i);
-  expect(linkElement).toBeInTheDocument();
+describe('I am your test', () => {
+  beforeEach(() => {
+    jest.spyOn(global, 'fetch')
+      .mockResolvedValue({
+        json: jest.fn().mockResolvedValue(mockData),
+      });
+      
+      act(() => {
+        render(<PlanetsProvider><App /></PlanetsProvider>);
+      });
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+  it('testando requisição na API', async () => {
+    
+    await waitFor(() => expect(screen.getByText('Tatooine')).toBeInTheDocument(), { timeout: 3000 });
+  });
 });

@@ -11,9 +11,12 @@ export default function Forms() {
     diameter,
     rotation_period: rotationPeriod,
     surface_water: surfaceWater } = filters;
+
   const [columnFilter, setColumnFilter] = useState('population');
   const [comparisonFilter, setComparisonFilter] = useState('maior que');
   const [valueFilter, setValueFilter] = useState(0);
+
+  const [sort, setSort] = useState({ column: 'population', sort: 'ASC' });
 
   const filterClick = () => {
     setState({
@@ -29,6 +32,27 @@ export default function Forms() {
     setComparisonFilter('maior que');
     setValueFilter(0);
   };
+
+  /* const applyFilters = () => {
+    let filtredPlanets = state.planets.filter((planet) => (planet.name.toLowerCase()));
+    Object.keys(filters).forEach((filter) => {
+      if (filter === 'planetName') {
+        filtredPlanets = filtredPlanets.filter((planet) => planet.name.toLowerCase()
+          .includes(filters[filter].toLowerCase()));
+      } else if (filters[filter].comparison === 'maior que') {
+        filtredPlanets = filtredPlanets.filter((planet) => Number(planet[filter])
+          > Number(filters[filter].value));
+      } else if (filters[filter].comparison === 'menor que') {
+        filtredPlanets = filtredPlanets.filter((planet) => Number(planet[filter])
+          < Number(filters[filter].value));
+      } else if (filters[filter].comparison === 'igual a') {
+        filtredPlanets = filtredPlanets.filter((planet) => Number(planet[filter])
+          === Number(filters[filter].value));
+      }
+    });
+
+    setState({ ...state, planets: filtredPlanets });
+  }; */
 
   const removeFilter = (filter) => {
     setState({
@@ -128,6 +152,44 @@ export default function Forms() {
         } }
       >
         Limpar
+      </button>
+      <select
+        data-testid="column-sort"
+        selected={ sort.column }
+        onChange={ ({ target: { value } }) => { setSort({ ...sort, column: value }); } }
+      >
+        <option value="population">population</option>
+        <option value="orbital_period">orbital_period</option>
+        <option value="diameter">diameter</option>
+        <option value="rotation_period">rotation_period</option>
+        <option value="surface_water">surface_water</option>
+      </select>
+      <label htmlFor="ASC">Ascendente</label>
+      <input
+        value="ASC"
+        type="radio"
+        name="sort"
+        id="ASC"
+        checked={ sort.sort === 'ASC' }
+        onChange={ () => setSort({ ...sort, sort: 'ASC' }) }
+        data-testid="column-sort-input-asc"
+      />
+      <label htmlFor="DESC">Descendente</label>
+      <input
+        value="DESC"
+        checked={ sort.sort === 'DESC' }
+        onChange={ () => setSort({ ...sort, sort: 'DESC' }) }
+        type="radio"
+        name="sort"
+        id="DESC"
+        data-testid="column-sort-input-desc"
+      />
+      <button
+        type="button"
+        data-testid="column-sort-button"
+        onClick={ () => { setState({ ...state, sort, sorted: true }); } }
+      >
+        Ordenar
       </button>
     </form>
   );

@@ -4,27 +4,40 @@ import Loading from './Loading';
 
 export default function Table() {
   const { state } = useContext(planetsContext);
-  const { planets, filters } = state;
+  const { planets, filters, sort, sorted } = state;
   const { planetName,
   } = filters;
   let filtredPlanets = planets.filter((planet) => (planet.name.toLowerCase()
     .includes(planetName.toLowerCase())));
   Object.keys(filters).forEach((key) => {
-    if (key === 'planetName' || filters[key].comparison === '') return;
+    if (filters[key].comparison === '') return;
     filtredPlanets = filtredPlanets.filter((planet) => {
       const { value, comparison } = filters[key];
       switch (comparison) {
       case 'maior que':
-        return Number(planet[key]) > Number(value);
+        return +(planet[key]) > +(value);
       case 'menor que':
-        return Number(planet[key]) < Number(value);
+        return +(planet[key]) < +(value);
       case 'igual a':
-        return Number(planet[key]) === Number(value);
+        return +(planet[key]) === +(value);
       default:
         return planet;
       }
     });
   });
+
+  filtredPlanets.sort((a, b) => {
+    if (!sorted) {
+      return 0;
+    }
+    if (a[sort.column] === 'unknown') return 1;
+    if (b[sort.column] === 'unknown') return +'-1';
+    if (sort.sort === 'ASC') {
+      return +a[sort.column] - +b[sort.column];
+    }
+    return +b[sort.column] - +a[sort.column];
+  });
+
   return (
     planets.length === 0 ? <Loading /> : (
       <table>
@@ -38,8 +51,13 @@ export default function Table() {
         <tbody>
           {filtredPlanets.map((planet) => (
             <tr key={ planet.name }>
-              {Object.values(planet).map((value) => (
-                <td key={ value }>{value}</td>
+              {Object.values(planet).map((value, i) => (
+                <td
+                  data-testid={ `${i === 0 && 'planet-name'}` }
+                  key={ value }
+                >
+                  {value}
+                </td>
               ))}
             </tr>
           ))}

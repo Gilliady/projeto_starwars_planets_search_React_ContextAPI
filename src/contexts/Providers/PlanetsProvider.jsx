@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, /* useMemo */ useState } from 'react';
 import planetsContext from '../planetsContext';
 import fetchStarwarsData from '../../services/fetchStarWarsData';
 
@@ -13,6 +13,8 @@ const INITIAL_STATE = {
     rotation_period: { value: 0, comparison: '' },
     surface_water: { value: 0, comparison: '' },
   },
+  sort: { column: 'population', sort: 'ASC' },
+  sorted: false,
 };
 export default function PlanetsProvider({ children }) {
   const [state, setState] = useState(INITIAL_STATE);
@@ -28,6 +30,9 @@ export default function PlanetsProvider({ children }) {
     };
     fetchPlanets();
   }, []);
+  /* const memorizedPlanets = useMemo(() => ({ planets: state.planets }), [state.planets]);
+  setState({ ...state, planets: memorizedPlanets.planets }); */
+
   return (
     <planetsContext.Provider value={ { state, setState } }>
       {children}
