@@ -103,19 +103,15 @@ export default function Forms() {
       </button>
       { Object.keys(filters)
         .filter((filter) => filter !== 'planetName' && filters[filter].comparison !== '')
-        .map((filter) =>
-          /* if (filter === 'planetName') {
-            return null;
-          } */
-          (
-            <div
-              data-testid="filter"
-              key={ filter }
-            >
-              {`${filter}: ${filters[filter].value} ${filters[filter].comparison}`}
-              <button type="button" onClick={ () => { removeFilter(filter); } }>X</button>
-            </div>
-          )) }
+        .map((filter) => (
+          <div
+            data-testid="filter"
+            key={ filter }
+          >
+            {`${filter}: ${filters[filter].value} ${filters[filter].comparison}`}
+            <button type="button" onClick={ () => { removeFilter(filter); } }>X</button>
+          </div>
+        )) }
       <button
         data-testid="button-remove-filters"
         type="button"
